@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lista_de_tarefas/model/todo.dart';
 
 Widget homeView() {
   return Scaffold(
       appBar: AppBar(
-        title: Text("Lista de Tarefas", style: GoogleFonts.lato()),
+        title: Text("Tarefas", style: GoogleFonts.lato()),
         backgroundColor: Colors.deepPurple,
       ),
-      body:_body()
-  );
+      body: _body());
 }
 
 Widget _body() {
@@ -26,15 +26,36 @@ Widget _body() {
               ),
             ),
             RaisedButton(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(15.0),
               color: Colors.deepPurple,
-              child: Text("+", style: TextStyle(fontSize: 25.0),),
+              shape: CircleBorder(),
+              child: Icon(Icons.add),
               textColor: Colors.white,
-              onPressed: (){},
+              onPressed: () {},
             )
           ],
         ),
+      ),
+      Expanded(
+        child: listView(),
       )
     ],
+  );
+}
+
+Widget listView() {
+  return ListView.builder(
+    padding: EdgeInsets.only(top: 10.0),
+    itemCount: toDoList.length,
+    itemBuilder: (context, index) {
+      return CheckboxListTile(
+        title: Text(toDoList[index]["title"]),
+        value: toDoList[index]["ok"],
+        secondary: CircleAvatar(
+          child: Icon(toDoList[index]["ok"] ? Icons.check : Icons.error),
+          
+        ),
+      );
+    },
   );
 }
