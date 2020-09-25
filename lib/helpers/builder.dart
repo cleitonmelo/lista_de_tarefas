@@ -124,6 +124,7 @@ class HomeView {
           ),
           duration: Duration(seconds: 2),
         );
+        Scaffold.of(context).removeCurrentSnackBar();
         Scaffold.of(context).showSnackBar(snack);
       },
     );

@@ -58,8 +58,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return HomeView(
-            onPressed: _onPressed,
             textController: _controler,
+            onPressed: _onPressed,
             onChecked: _onChecked,
             onRemoved: _onRemoved,
             onUndoRemoved: _onUndoRemoved,
