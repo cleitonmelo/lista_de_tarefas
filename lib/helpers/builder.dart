@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lista_de_tarefas/model/todo.dart';
@@ -33,10 +34,12 @@ class HomeView {
     return Scaffold(
         appBar: AppBar(
           title: Text("Tarefas", style: GoogleFonts.lato()),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.redAccent,
           centerTitle: true,
         ),
-        body: _body());
+        body: _body()
+    );
+
   }
 
   Widget _body() {
@@ -50,13 +53,13 @@ class HomeView {
                 child: TextField(
                   decoration: InputDecoration(
                       labelText: "Nova Tarefa",
-                      labelStyle: TextStyle(color: Colors.deepPurpleAccent)),
+                      labelStyle: TextStyle(color: Colors.redAccent, fontSize: 18.0)),
                   controller: textController,
                 ),
               ),
               RaisedButton(
                 padding: EdgeInsets.all(15.0),
-                color: Colors.deepPurple,
+                color: Colors.redAccent,
                 shape: CircleBorder(),
                 child: Icon(Icons.add),
                 textColor: Colors.white,
@@ -66,11 +69,21 @@ class HomeView {
           ),
         ),
         Expanded(
-          child: RefreshIndicator(
-              onRefresh: onRefresh,
-              child: _listView(),
-          )
-        )
+            child: RefreshIndicator(
+          onRefresh: onRefresh,
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            child: _listView(),
+            decoration: BoxDecoration(
+              color: Colors.redAccent,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.white,
+                width: 12,
+              ),
+            ),
+          ),
+        ))
       ],
     );
   }
@@ -87,25 +100,34 @@ class HomeView {
     return Dismissible(
       key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
       background: Container(
-        color: Colors.red,
         child: Align(
           alignment: Alignment(-0.9, 0.0),
           child: Icon(Icons.delete, color: Colors.white),
         ),
+        decoration: BoxDecoration(
+          color: Colors.orangeAccent,
+          borderRadius: BorderRadius.circular(10),
+        ),
       ),
       direction: DismissDirection.startToEnd,
       child: CheckboxListTile(
+          activeColor: Colors.white,
+          checkColor: Colors.redAccent,
           title: Text(ToDo.toDoList[index]["title"],
-              style: GoogleFonts.lato(
-                fontSize: 22,
-                color: Colors.deepPurple,
+              style: GoogleFonts.aBeeZee(
+                fontSize: 18,
+                color: Colors.white,
                 decoration: ToDo.toDoList[index]["ok"]
                     ? TextDecoration.lineThrough
                     : null,
               )),
           value: ToDo.toDoList[index]["ok"],
           secondary: CircleAvatar(
-            child: Icon(ToDo.toDoList[index]["ok"] ? Icons.check : Icons.label),
+            child: Icon(
+                ToDo.toDoList[index]["ok"] ? Icons.check_circle : Icons.label,
+                color: Colors.white
+            ),
+            backgroundColor: Colors.redAccent,
           ),
           onChanged: (value) {
             return onChecked(index, value);
@@ -115,10 +137,10 @@ class HomeView {
         _lastRemovedPosition = index;
         onRemoved(index);
         final snack = SnackBar(
-          content: Text("Tarefa ${ _lastRemoved["title"] } removida."),
+          content: Text("Tarefa ${_lastRemoved["title"]} removida."),
           action: SnackBarAction(
             label: "Desfazer",
-            onPressed: (){
+            onPressed: () {
               onUndoRemoved(_lastRemovedPosition, _lastRemoved);
             },
           ),
