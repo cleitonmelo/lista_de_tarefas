@@ -24,6 +24,9 @@ class _HomeState extends State<Home> {
   }
 
   void _onPressed() {
+    if (_controler.text.isEmpty) {
+      return;
+    }
     setState(() {
       ToDo.addToDo(_controler.text);
       _controler.text = "";

@@ -16,30 +16,21 @@ class HomeView {
   TextEditingController textController;
 
   HomeView(
-      {@required onPressed,
-      @required onChecked,
-      @required textController,
-      @required onRemoved,
-      @required onUndoRemoved,
-      @required onRefresh}) {
-    this.onPressed = onPressed;
-    this.onChecked = onChecked;
-    this.textController = textController;
-    this.onRemoved = onRemoved;
-    this.onUndoRemoved = onUndoRemoved;
-    this.onRefresh = onRefresh;
-  }
+      {@required this.onPressed,
+      @required this.onChecked,
+      @required this.textController,
+      @required this.onRemoved,
+      @required this.onUndoRemoved,
+      @required this.onRefresh});
 
   Widget build() {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Tarefas", style: GoogleFonts.lato()),
+          title: Text("Lista de Tarefas", style: GoogleFonts.lato()),
           backgroundColor: Colors.redAccent,
           centerTitle: true,
         ),
-        body: _body()
-    );
-
+        body: _body());
   }
 
   Widget _body() {
@@ -53,7 +44,8 @@ class HomeView {
                 child: TextField(
                   decoration: InputDecoration(
                       labelText: "Nova Tarefa",
-                      labelStyle: TextStyle(color: Colors.redAccent, fontSize: 18.0)),
+                      labelStyle:
+                          TextStyle(color: Colors.redAccent, fontSize: 18.0)),
                   controller: textController,
                 ),
               ),
@@ -89,10 +81,33 @@ class HomeView {
   }
 
   Widget _listView() {
+    if(ToDo.toDoList.isEmpty){
+      return _listEmpty();
+    }
     return ListView.builder(
       padding: EdgeInsets.only(top: 10.0),
       itemCount: ToDo.toDoList.length,
       itemBuilder: _buildItem,
+    );
+  }
+
+  Widget _listEmpty() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.thumb_up,
+          size: 120,
+          color: Colors.white,
+        ),
+        Divider(),
+        Text(
+          'Sem tarefa(s) pendente(s)!',
+          style: GoogleFonts.lato(fontSize: 26, color: Colors.white),
+          textAlign: TextAlign.center,
+        )
+      ],
     );
   }
 
@@ -125,8 +140,7 @@ class HomeView {
           secondary: CircleAvatar(
             child: Icon(
                 ToDo.toDoList[index]["ok"] ? Icons.check_circle : Icons.label,
-                color: Colors.white
-            ),
+                color: Colors.white),
             backgroundColor: Colors.redAccent,
           ),
           onChanged: (value) {
