@@ -3,7 +3,7 @@
 Lista de tarefas desenvolvido em *flutter* utilizando a linguagem *dart*
 
 ## Principal Funcionalidade
-- Armazenamento e Recuperação de Informações em arquivo no formato _json_.
+Armazenamento e Recuperação de Informações em arquivo no formato _json_.
 
 ## Screenchots
 
